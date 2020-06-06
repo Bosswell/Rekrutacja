@@ -11,10 +11,14 @@ class CreateOneProducerRequest implements JsonSerializable
 {
     private Producer $producer;
 
+    public function __construct(Producer $producer)
+    {
+        $this->producer = $producer;
+    }
+
     public function jsonSerialize()
     {
         return [
-            'id' => $this->producer->getId(),
             'name' => $this->producer->getName(),
             'site_url' => $this->producer->getSiteUrl(),
             'logo_filename' => $this->producer->getLogoFilename(),

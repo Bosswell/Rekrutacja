@@ -10,73 +10,48 @@ use Psr\Http\Message\StreamInterface;
 
 class Response implements ResponseInterface
 {
-    public function getProtocolVersion()
+    use MessageTrait;
+
+    private StreamInterface $body;
+    private ?string $reasonPhrase = null;
+    private int $code;
+
+    public function __construct(StreamInterface $body)
     {
-        // TODO: Implement getProtocolVersion() method.
+        $this->body = $body;
+        $this->code = $this->findHttpCode();
     }
 
-    public function withProtocolVersion($version)
+    public function getStatusCode(): int
     {
-        // TODO: Implement withProtocolVersion() method.
+        return $this->code;
     }
 
-    public function getHeaders()
+    public function withStatus($code, $reasonPhrase = ''): self
     {
-        // TODO: Implement getHeaders() method.
+        if (!is_int($code)) {
+            throw new \TypeError('Given code need to be integer');
+        }
+
+        if ($code === $this->code) {
+            return $this;
+        }
+
+        $response = clone $this;
+        $response->code = $code;
+
+        return $response;
     }
 
-    public function hasHeader($name)
+    public function getReasonPhrase(): ?string
     {
-        // TODO: Implement hasHeader() method.
+        return $this->reasonPhrase;
     }
 
-    public function getHeader($name)
+    private function findHttpCode(): int
     {
-        // TODO: Implement getHeader() method.
-    }
+        $httpInfoLine = $this->body->getMetadata('wrapper_data')[0];
 
-    public function getHeaderLine($name)
-    {
-        // TODO: Implement getHeaderLine() method.
-    }
-
-    public function withHeader($name, $value)
-    {
-        // TODO: Implement withHeader() method.
-    }
-
-    public function withAddedHeader($name, $value)
-    {
-        // TODO: Implement withAddedHeader() method.
-    }
-
-    public function withoutHeader($name)
-    {
-        // TODO: Implement withoutHeader() method.
-    }
-
-    public function getBody()
-    {
-        // TODO: Implement getBody() method.
-    }
-
-    public function withBody(StreamInterface $body)
-    {
-        // TODO: Implement withBody() method.
-    }
-
-    public function getStatusCode()
-    {
-        // TODO: Implement getStatusCode() method.
-    }
-
-    public function withStatus($code, $reasonPhrase = '')
-    {
-        // TODO: Implement withStatus() method.
-    }
-
-    public function getReasonPhrase()
-    {
-        // TODO: Implement getReasonPhrase() method.
+        return (int)explode(' ', $httpInfoLine)[1];
     }
 }

@@ -10,102 +10,22 @@ use Psr\Http\Message\UriInterface;
 
 class Request implements RequestInterface
 {
+    use MessageTrait;
+
     private string $version = '';
-    private string $body = '';
+    private StreamInterface $body;
     private array $headers = [];
     private string $method = '';
+    private UriInterface $uri;
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getProtocolVersion()
+    public function __construct(string $body, string $method, string $path)
     {
-        return $this->version;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withProtocolVersion($version)
-    {
-        $this->version = $version;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasHeader($name)
-    {
-        return array_key_exists($name, $this->headers);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeader($name)
-    {
-        if ($this->hasHeader($name)) {
-            return $this->headers[$name];
-        }
-
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaderLine($name)
-    {
-        return implode(', ', $this->getHeader($name));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withHeader($name, $value)
-    {
-        // TODO: Implement withHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAddedHeader($name, $value)
-    {
-        // TODO: Implement withAddedHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withoutHeader($name)
-    {
-        // TODO: Implement withoutHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withBody(StreamInterface $body)
-    {
-        // TODO: Implement withBody() method.
+        $this->body = new Stream(
+            fopen('php://memory','r+')
+        );
+        $this->body->write($body);
+        $this->method = $method;
+        $this->uri = new Uri($path);
     }
 
     /**
@@ -127,7 +47,7 @@ class Request implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -135,7 +55,7 @@ class Request implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function withMethod($method)
+    public function withMethod($method): self
     {
         $this->method = strtoupper($method);
     }
@@ -143,16 +63,16 @@ class Request implements RequestInterface
     /**
      * @inheritDoc
      */
-    public function getUri()
+    public function getUri(): UriInterface
     {
-        // TODO: Implement getUri() method.
+        return $this->uri;
     }
 
     /**
      * @inheritDoc
      */
-    public function withUri(UriInterface $uri, $preserveHost = false)
+    public function withUri(UriInterface $uri, $preserveHost = false): self
     {
-        // TODO: Implement withUri() method.
+
     }
 }

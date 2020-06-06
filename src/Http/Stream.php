@@ -37,6 +37,11 @@ class Stream implements StreamInterface
         $this->writable = (bool)preg_match(self::WRITABLE_MODES, $mode);
     }
 
+    public function __destruct()
+    {
+        $this->detach();
+    }
+
     /**
      * @inheritDoc
      */

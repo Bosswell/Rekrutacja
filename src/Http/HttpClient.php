@@ -14,6 +14,23 @@ class HttpClient implements ClientInterface
      */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        // TODO: Implement sendRequest() method.
+        $stream = new Stream(
+            fopen((string)$request->getUri(), 'r', false, $this->buildContext($request))
+        );
+
+        return new Response($stream);
+    }
+
+    private function buildContext(RequestInterface $request)
+    {
+        $options = array(
+            'http' => array(
+                'method'  => $request->getMethod(),
+                'content' => $request->getBody()->getContents(),
+                'header'=> $request->getHeaders()
+            )
+        );
+
+        return stream_context_create($options);
     }
 }
