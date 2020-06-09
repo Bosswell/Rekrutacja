@@ -1,20 +1,23 @@
 <?php
 
+require 'vendor/autoload.php';
+
+use IShopClient\Api\ProducerApi\ProducerApi;
+use IShopClient\Api\ProducerApi\Request\CreateOneProducerRequest;
 use IShopClient\Configuration;
 use IShopClient\Http\HttpClient;
 use IShopClient\Model\Producer;
-use IShopClient\Producer\ProducerApi;
-use IShopClient\WebService\Producer\Request\CreateOneProducerRequest;
 
 $httpClient = new HttpClient();
-$configuration = new Configuration('https://strona.pl', 'Admin', 'pass');
+$configuration = new Configuration('http://rekrutacja.localhost:8091', 'rest', 'vKTUeyrt1!');
 
 $producerApi = new ProducerApi($httpClient, $configuration);
 
 // Create producer
-$producer = new Producer('John', 'site_url', 'filename', 11, '222');
+$producer = new Producer(5, 'John', 'site_url', 'filename', 11, '2222');
 $request = new CreateOneProducerRequest($producer);
-$producerApi->createOne($request);
-
-// Get All producers
-$producerApi->getAll();
+$response = $producerApi->createOne($request);
+print_r($response);
+//print_r($producerApi->getAll());
+//// Get All producers
+//

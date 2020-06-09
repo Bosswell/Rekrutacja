@@ -1,7 +1,7 @@
 <?php
 
 
-namespace IShopClient\WebService\Producer\Request;
+namespace IShopClient\Api\ProducerApi\Request;
 
 use IShopClient\Model\Producer;
 use JsonSerializable;
@@ -19,11 +19,14 @@ class CreateOneProducerRequest implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'name' => $this->producer->getName(),
-            'site_url' => $this->producer->getSiteUrl(),
-            'logo_filename' => $this->producer->getLogoFilename(),
-            'ordering' => $this->producer->getOrdering(),
-            'source_id' => $this->producer->getSourceId()
+            'producer' => [
+                'id' => $this->producer->getId(),
+                'name' => $this->producer->getName(),
+                'site_url' => $this->producer->getSiteUrl(),
+                'logo_filename' => $this->producer->getLogoFilename(),
+                'ordering' => $this->producer->getOrdering(),
+                'source_id' => $this->producer->getSourceId()
+            ]
         ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace IShopClient\WebService\Producer\Request;
+namespace IShopClient\Api\ProducerApi\Request;
 
 
 class GetAllProducersRequest

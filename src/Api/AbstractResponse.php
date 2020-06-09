@@ -10,13 +10,16 @@ abstract class AbstractResponse
 {
     private string $version;
     private bool $success;
-    private ?Error $error;
+    private ?Error $error = null;
 
     public function __construct(array $response)
     {
-        $this->version = (string)$response['version'] ?? '';
-        $this->success = (bool)$response['success'] ?? false;
-        $this->error = $response['error'] ?? null;
+        $this->version = (string)($response['version'] ?? '');
+        $this->success = (bool)($response['success'] ?? false);
+
+        if ($error = $response['error'] ?? null) {
+            $this->error = new Error($error);
+        }
     }
 
     /**

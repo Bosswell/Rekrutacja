@@ -22,22 +22,27 @@ class Uri implements UriInterface
     public function __construct(string $url)
     {
         $this->url = $url;
-
         $urlInfo = parse_url($url);
-        $this->host = $urlInfo['host'] ?? '';
         $this->scheme = $urlInfo['scheme'] ?? '';
-        $this->path = urlencode($urlInfo['path'] ?? '');
+        $this->path = $urlInfo['path'] ?? '';
         $this->query = $urlInfo['query'] ?? '';
         $this->userInfo = $urlInfo['user'] ?? '';
-        $this->userInfo .= ':' . $urlInfo['password'] ?? '';
-        $this->fragment = $urlInfo['fragment'] ?? '';
 
-        if (($host = (int)$urlInfo['host'] ?? null) && $this->isHostValid($host)) {
-            $this->host = $host;
+        if ($pass = $urlInfo['pass'] ?? null) {
+            $this->userInfo .= ':' . $pass;
         }
 
-        if (($port = (int)$urlInfo['port'] ?? null) && $this->isPortValid($port)) {
-            $this->port = $port;
+        $this->fragment = $urlInfo['fragment'] ?? '';
+        $this->host = $urlInfo['host'] ?? '';
+        $this->host =  preg_replace('/ /', '', $this->host);
+        $this->port = ($urlInfo['port'] ?? null);
+
+        if (!$this->isHostValid($this->host)) {
+            throw new \InvalidArgumentException('Invalid hostname');
+        }
+
+        if (($port = $urlInfo['port'] ?? null) && $this->isPortValid($port)) {
+            $this->port = (int)$port;
         }
     }
 
@@ -267,7 +272,6 @@ class Uri implements UriInterface
     {
         $uri = '';
 
-        // weak type checks to also accept null until we can add scalar type hints
         if ($this->getScheme() != '') {
             $uri .= $this->getScheme() . ':';
         }

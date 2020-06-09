@@ -6,7 +6,7 @@ namespace IShopClient\Model;
 
 class Producer
 {
-    private ?int $id;
+    private int $id;
     private string $name;
     private string $site_url;
     private string $logo_filename;
@@ -14,12 +14,12 @@ class Producer
     private string $source_id;
 
     public function __construct(
+        int $id,
         string $name,
         string $site_url,
         string $logo_filename,
         int $ordering,
-        string $source_id,
-        ?int $id = null
+        string $source_id
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -29,7 +29,7 @@ class Producer
         $this->source_id = $source_id;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

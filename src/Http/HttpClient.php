@@ -7,6 +7,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+
 class HttpClient implements ClientInterface
 {
     /**
@@ -14,11 +15,15 @@ class HttpClient implements ClientInterface
      */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $stream = new Stream(
-            fopen((string)$request->getUri(), 'r', false, $this->buildContext($request))
-        );
+        $handler = @fopen((string)$request->getUri(), 'r', false, $this->buildContext($request));
 
-        return new Response($stream);
+        if (!$handler) {
+            throw new ApiException(error_get_last()['message']);
+        }
+
+        return new Response(
+            new Stream($handler)
+        );
     }
 
     private function buildContext(RequestInterface $request)
@@ -26,11 +31,23 @@ class HttpClient implements ClientInterface
         $options = array(
             'http' => array(
                 'method'  => $request->getMethod(),
-                'content' => $request->getBody()->getContents(),
-                'header'=> $request->getHeaders()
+                'content' => (string)$request->getBody(),
+                'header'=> $this->buildHttpHeaders($request),
+                'ignore_errors' => true
             )
         );
 
         return stream_context_create($options);
+    }
+
+    private function buildHttpHeaders(RequestInterface $request): string
+    {
+        $httpHeaders = '';
+
+        foreach ($request->getHeaders() as $header => $values) {
+            $httpHeaders .= $header . ': ' . $request->getHeaderLine($header) . "\r\n";
+        }
+
+        return $httpHeaders;
     }
 }

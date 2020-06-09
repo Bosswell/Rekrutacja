@@ -3,7 +3,6 @@
 
 namespace IShopClient\Http;
 
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -11,6 +10,8 @@ use Psr\Http\Message\StreamInterface;
 class Response implements ResponseInterface
 {
     use MessageTrait;
+
+    public const UNAUTHORIZED_HTTP_CODE = 401;
 
     private StreamInterface $body;
     private ?string $reasonPhrase = null;
@@ -20,6 +21,7 @@ class Response implements ResponseInterface
     {
         $this->body = $body;
         $this->code = $this->findHttpCode();
+        $this->setHeaders($body->getMetadata('wrapper_data'));
     }
 
     public function getStatusCode(): int
