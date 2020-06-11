@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IShopClient\Api\ProducerApi\Response;
 
 use IShopClient\Api\AbstractResponse;

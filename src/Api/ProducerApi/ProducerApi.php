@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IShopClient\Api\ProducerApi;
 
 use IShopClient\Api\ProducerApi\Request\CreateOneProducerRequest;

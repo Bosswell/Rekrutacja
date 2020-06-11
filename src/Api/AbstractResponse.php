@@ -1,10 +1,9 @@
 <?php
 
-
 namespace IShopClient\Api;
 
-
 use IShopClient\Model\Error;
+
 
 abstract class AbstractResponse
 {

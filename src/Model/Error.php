@@ -1,8 +1,6 @@
 <?php
 
-
 namespace IShopClient\Model;
-
 
 class Error
 {
