@@ -60,36 +60,32 @@ class ProducerApi
      */
     private function execute(RequestInterface $request, string $responseClass)
     {
-        try {
-            $response = $this->httpClient->sendRequest($request);
-            $body = (string)$response->getBody();
-            $decodedBody = json_decode($body, true);
-            $code = $response->getStatusCode();
+        $response = $this->httpClient->sendRequest($request);
+        $body = (string)$response->getBody();
+        $decodedBody = json_decode($body, true);
+        $code = $response->getStatusCode();
 
-            if (is_array($decodedBody) && !empty($decodedBody)) {
-                if (key_exists('exception', $decodedBody)) {
-                    throw new ApiException($body, $response->getStatusCode());
-                }
-
-                return new $responseClass(['data' => $decodedBody]);
+        if (is_array($decodedBody) && !empty($decodedBody)) {
+            if (key_exists('exception', $decodedBody)) {
+                throw new ApiException($body, $response->getStatusCode());
             }
 
-            if ($code >= 400) {
-                if (empty($decodedBody)) {
-                    if ($code === Response::UNAUTHORIZED_HTTP_CODE) {
-                        throw new ApiException('Unauthorized request', $code);
-                    }
+            return new $responseClass(['data' => $decodedBody]);
+         }
 
-                    throw new ApiException('Unknown error', $code);
+        if ($code >= 400) {
+            if (empty($decodedBody)) {
+                if ($code === Response::UNAUTHORIZED_HTTP_CODE) {
+                    throw new ApiException('Unauthorized request', $code);
                 }
 
-                return new $responseClass(['error' => ['singleMessage' => $body]]);
+                throw new ApiException('Unknown error', $code);
             }
 
-            throw new \LogicException('Response body is not an array and seems to not have any error or success code');
-        } catch (Throwable $ex) {
-            throw $ex;
+            return new $responseClass(['error' => ['singleMessage' => $body]]);
         }
+
+        throw new \LogicException('Response body is not an array and seems to not have any error or success code');
     }
 
     private function buildRequest(string $method, string $url, string $body = '', array $headers = []): RequestInterface

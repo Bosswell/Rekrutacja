@@ -10,13 +10,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "IShopClient\\": "src/",
-            "Test\\": "tests/"
+            "IShopClient\\": "src/"
         }
     },
     "require": {
         "psr/http-client": "^1.0",
-        "psr/log": "^1.0",
         "ext-json": "*"
     },
     "require-dev": {
