@@ -1,3 +1,6 @@
+<h1>Example use of HttpClient</h1>
+
+```php
 require 'vendor/autoload.php';
 
 use IShopClient\Api\ProducerApi\ProducerApi;
@@ -21,3 +24,4 @@ print_r($response);
 // Get All producers
 $producers = $producerApi->getAll();
 print_r($producers);
+```
