@@ -1,4 +1,4 @@
-<h1>Example use of HttpClient</h1>
+<h1>Example use of HttpClient and ProducerApi client</h1>
 
 ```php
 require 'vendor/autoload.php';
