@@ -82,7 +82,7 @@ class ProducerApi
                 throw new ApiException('Unknown error', $code);
             }
 
-            return new $responseClass(['error' => ['singleMessage' => $body]]);
+            return new $responseClass(['error' => ['messages' => [$body]]]);
         }
 
         throw new \LogicException('Response body is not an array and seems to not have any error or success code');
