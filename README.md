@@ -10,7 +10,7 @@ use IShopClient\Http\HttpClient;
 use IShopClient\Model\Producer;
 
 $httpClient = new HttpClient();
-$configuration = new Configuration('http://rekrutacja.localhost:8091', 'rest', 'vKTUeyrt1!');
+$configuration = new Configuration('http://rekrutacja.localhost:8091', 'api_login', 'api_pass');
 
 $producerApi = new ProducerApi($httpClient, $configuration);
 
