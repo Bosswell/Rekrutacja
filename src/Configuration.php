@@ -2,7 +2,7 @@
 
 namespace IShopClient;
 
-final class Configuration
+class Configuration
 {
     private string $host;
     private string $username;
