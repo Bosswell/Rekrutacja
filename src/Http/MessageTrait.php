@@ -185,7 +185,7 @@ trait MessageTrait
             ));
         }
 
-        if (! preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $header)) {
+        if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $header)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     '"%s" is not valid header name',

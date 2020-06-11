@@ -102,14 +102,14 @@ class Request implements RequestInterface
             return $this;
         }
 
-        $new = clone $this;
-        $new->uri = $uri;
+        $request = clone $this;
+        $request->uri = $uri;
 
         if (!$preserveHost || !isset($this->headerNames['host'])) {
-            $new->updateHostFromUri();
+            $request->updateHostFromUri();
         }
 
-        return $new;
+        return $request;
     }
 
     private function updateHostFromUri(): void
@@ -130,8 +130,7 @@ class Request implements RequestInterface
             $header = 'Host';
             $this->headerNames['host'] = 'Host';
         }
-        // Ensure Host is the first header.
-        // See: http://tools.ietf.org/html/rfc7230#section-5.4
+        
         $this->headers = [$header => [$host]] + $this->headers;
     }
 
