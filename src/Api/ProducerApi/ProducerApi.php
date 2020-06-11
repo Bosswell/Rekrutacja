@@ -6,7 +6,7 @@ use IShopClient\Api\ProducerApi\Request\CreateOneProducerRequest;
 use IShopClient\Api\ProducerApi\Response\CreateOneProducerResponse;
 use IShopClient\Api\ProducerApi\Response\GetAllProducersResponse;
 use IShopClient\Configuration;
-use IShopClient\Http\ApiException;
+use IShopClient\Api\ApiException;
 use IShopClient\Http\Request;
 use IShopClient\Http\Response;
 use Psr\Http\Client\ClientInterface;

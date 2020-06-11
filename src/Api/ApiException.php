@@ -1,6 +1,6 @@
 <?php
 
-namespace IShopClient\Http;
+namespace IShopClient\Api;
 
 use Psr\Http\Client\ClientExceptionInterface;
 
