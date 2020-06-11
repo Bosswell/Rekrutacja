@@ -1,5 +1,3 @@
-<?php
-
 require 'vendor/autoload.php';
 
 use IShopClient\Api\ProducerApi\ProducerApi;
@@ -18,6 +16,8 @@ $producer = new Producer(5, 'John', 'site_url', 'filename', 11, '2222');
 $request = new CreateOneProducerRequest($producer);
 $response = $producerApi->createOne($request);
 print_r($response);
-//print_r($producerApi->getAll());
-//// Get All producers
-//
+
+
+// Get All producers
+$producers = $producerApi->getAll();
+print_r($producers);
