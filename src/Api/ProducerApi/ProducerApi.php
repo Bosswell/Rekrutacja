@@ -55,6 +55,7 @@ class ProducerApi
 
     /**
      * @throws Throwable
+     * @return mixed
      * @param RequestInterface $request
      * @param string $responseClass
      */
