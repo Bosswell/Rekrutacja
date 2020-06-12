@@ -41,7 +41,6 @@ class ProducerApi
     }
 
     /**
-     * @return mixed
      * @throws Throwable
      * @return GetAllProducersResponse
      */
