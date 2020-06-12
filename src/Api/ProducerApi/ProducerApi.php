@@ -85,7 +85,7 @@ class ProducerApi
             return new $responseClass(['error' => ['messages' => [$body]]]);
         }
 
-        throw new \LogicException('Response body is not an array and seems to not have any error or success code');
+        throw new \LogicException('Response body is not an array and seems to not have any error');
     }
 
     private function buildRequest(string $method, string $url, string $body = '', array $headers = []): RequestInterface
